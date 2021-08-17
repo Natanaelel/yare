@@ -21,6 +21,7 @@ function main(){
         if(!memory[spirit.id])addSpirit(spirit)
     })
     my_spirits.forEach(doTask)
+    my_spirits.forEach(s=>s.shout(`${memory[s.id].task}: ${memory[s.id].subtask}`))
     
 }
 function doTask(spirit){
@@ -62,7 +63,7 @@ function farm(spirit){
 }
 
 function distance(pos1, pos2){
-    return Math.sqrt((pos1.x - pos2.x) ** 2 + (pos1.y - pos2.y) ** 2)
+    return Math.sqrt((pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2)
 }
 
 
