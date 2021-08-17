@@ -26,20 +26,44 @@ function main(){
 function doTask(spirit){
     switch (memory[spirit.id].task) {
         case "farm":
-            
+            farm(spirit)
             break;
         
         default:
-            // code
+            s.move(enemy_base.position)
+	        s.energize(enemy_base)
+            break
     }
-    for(s of my_spirits){
-        s.move(enemy_base.position)
-	    s.energize(enemy_base)
-    }    
-    
     
 }
+function farm(spirit){
+    let mem = memory[spirit.id]
+    if(mem.subtask == "find star"){
+        spirit.move(star_zxq.position)
+        if(distance(spirit.position, star_zxq.position) < 200){
+            mem.subtask = "harvest energy"
+        }
+    }else if(mem.subtask == "harvest energy"){
+        spirit.energize(star_zxq)
+        if(spirit.energy == spirit.energy_capacity || star_zxq.energy == 0){
+            spirit.subtask = "go home"
+        }
+    }else if(mem.subtask == "go home"){
+        spirit.move(base.position)
+        if(distance(spirit.position, base.position) < 200){
+            mem.subtask = "charge base"
+        }
+    }else if(mem.subtask == "charge base"){
+        spirit.energize(base)
+        if(spirit.energy == 0){
+            mem.subtask = "find star"
+        }
+    }
+}
 
+function distance(pos1, pos2){
+    return Math.sqrt((pos1.x - pos2.x) ** 2 + (pos1.y - pos2.y) ** 2)
+}
 
 
 
