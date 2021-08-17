@@ -21,7 +21,9 @@ function main(){
         if(!memory[spirit.id])addSpirit(spirit)
     })
     my_spirits.forEach(doTask)
-    my_spirits.forEach(s=>s.shout(`${memory[s.id].task}: ${memory[s.id].subtask}`))
+    my_spirits.forEach(s=>{
+        s.shout(`${memory[s.id].task}: ${memory[s.id].subtask}`)
+    })
     
 }
 function doTask(spirit){
@@ -29,7 +31,9 @@ function doTask(spirit){
         case "farm":
             farm(spirit)
             break;
-        
+        case "attack":
+            attack(spirit)
+            break
         default:
             s.move(enemy_base.position)
 	        s.energize(enemy_base)
@@ -45,9 +49,9 @@ function farm(spirit){
             mem.subtask = "harvest energy"
         }
     }else if(mem.subtask == "harvest energy"){
-        spirit.energize(star_zxq)
-        if(spirit.energy == spirit.energy_capacity || star_zxq.energy == 0){
-            spirit.subtask = "go home"
+        spirit.energize(spirit)
+        if(spirit.energy == spirit.energy_capacity || star_zxq.energy < 8){
+            mem.subtask = "go home"
         }
     }else if(mem.subtask == "go home"){
         spirit.move(base.position)
@@ -67,5 +71,9 @@ function distance(pos1, pos2){
 }
 
 
+
+
+
+my_spirits = my_spirits.filter(s=>s.hp==1)
 
 main()
